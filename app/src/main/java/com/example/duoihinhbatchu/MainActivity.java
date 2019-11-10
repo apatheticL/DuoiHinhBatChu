@@ -2,6 +2,7 @@ package com.example.duoihinhbatchu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +22,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout linearLayout1, linearLayout2;
     private LinearLayout linear1, linear2;
     private List<Answer> answers;
+    private boolean checkDialogShowYes =true;
+    private boolean checkDialogShowNo=true;
+    private boolean checkRes=true;
     private List<Character> allChar;
     private List<Character> charButton;
     private int currentIndex;
+    private int score=0;
+    private Button btnBack;
     private ImageView imageView;
+    private List<Integer> idButtonClicks = new ArrayList<>();
     private int currentIndexChildAnswer = 0;
 
     @Override
@@ -44,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 linearLayout2.addView(btn);
             }
             linearLayout2.setVisibility(View.VISIBLE);
-            for (int i = 0; i < currentAnswer.length() - 8; i++) {
+            for (int i = 0; i < currentAnswer.length()-8; i++) {
                 Button btn = inflateButton(linearLayout1);
                 linearLayout1.addView(btn);
             }
@@ -93,6 +100,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void innit() {
         tvNumberPlay = findViewById(R.id.tv_number_play);
         tvNumberMoney = findViewById(R.id.number_money);
+        btnBack = findViewById(R.id.btn_back);
+        linear1 = findViewById(R.id.ll_bottom_1);
+        linear2 = findViewById(R.id.ll_bottom_2);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               checkRes=false;
+                cleadContentAnswer();
+                hindButton();
+            }
+        });
         linearLayout1 = findViewById(R.id.ll_1);
         imageView = findViewById(R.id.im_sound);
         linearLayout2 = findViewById(R.id.ll_2);
@@ -111,7 +129,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answers.add(new Answer("HONGTAM", R.drawable.hongtam));
         Collections.shuffle(answers);
     }
-
+    private void cleadContentAnswer(){
+        for (int i = 0; i <linearLayout1.getChildCount() ; i++) {
+            ((Button)linearLayout1.getChildAt(i)).setText("");
+            currentIndexChildAnswer=0;
+        }
+        for (int i = 0; i <linearLayout2.getChildCount() ; i++) {
+            ((Button)linearLayout2.getChildAt(i)).setText("");
+            currentIndexChildAnswer=0;
+        }
+    }
     private void innitAllChar() {
         allChar = new ArrayList<>();
         for (char i = 'A'; i <= 'Z'; i++) {
@@ -121,10 +148,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        view.setVisibility(View.INVISIBLE);
-        if (answers.get(currentIndex).getAnswer().length() < 8) {
-            ((Button) linearLayout1.getChildAt(currentIndexChildAnswer)).
-                    setText(((Button) view).getText().toString());
+
+        if(currentIndexChildAnswer<linearLayout1.getChildCount()||currentIndexChildAnswer<(linearLayout2.getChildCount()+linearLayout1.getChildCount())){
+                view.setVisibility(View.INVISIBLE);
+                idButtonClicks.add(view.getId());
+        }
+        if (answers.get(currentIndex).getAnswer().length() < 8&&currentIndexChildAnswer<linearLayout1.getChildCount()) {
+            ((Button) linearLayout1.getChildAt(currentIndexChildAnswer)).setText(((Button) view).getText().toString());
             currentIndexChildAnswer++;
             if (currentIndexChildAnswer == answers.get(currentIndex).
                     getAnswer().length()) {
@@ -139,13 +169,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (isTrue) {
                     nextTrue();
                 }
+                else {
+                    hindDialog();
+                }
             }
-        } else {
+
+        } if(answers.get(currentIndex).getAnswer().length() >=8&&currentIndexChildAnswer<linearLayout1.getChildCount()+linearLayout2.getChildCount()) {
             if (answers.get(currentIndex).getAnswer().length() < 8) {
                 ((Button) linearLayout2.getChildAt(currentIndexChildAnswer))
                         .setText(((Button) view).getText().toString());
                 currentIndexChildAnswer++;
-
             } else {
                 ((Button) linearLayout1.getChildAt(currentIndexChildAnswer)).
                         setText(((Button) view).getText().toString());
@@ -153,38 +186,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             if (currentIndexChildAnswer == answers.get(currentIndex).
                     getAnswer().length()) {
-
                 boolean isCorrect = true;
                 for (int i = 0; i < currentIndexChildAnswer; i++) {
-                    if (i < 8) {
-                        if (answers.get(currentIndex).getAnswer().charAt(i)
-                                != ((Button) linearLayout2.getChildAt(i)).getText().charAt(0)) {
+                    if (answers.get(currentIndex).getAnswer().charAt(i) != ((Button) linearLayout1.getChildAt(i)).getText().charAt(0)) {
+                        isCorrect = false;
+                        break;
+                    }
+                    if (linearLayout2.getChildAt(i) != null) {
+                        if (answers.get(currentIndex).getAnswer().charAt(i) != ((Button) linearLayout2.getChildAt(i)).getText().charAt(i)) {
                             isCorrect = false;
                             break;
-                        } else {
-                            if (answers.get(currentIndex).getAnswer().charAt(i)
-                                    != ((Button) linearLayout1.getChildAt(i)).getText().charAt(0)) {
-                                isCorrect = false;
-                                break;
-                            }
                         }
                     }
                 }
                 if (isCorrect) {
                     nextTrue();
+
                 }
+                else{
+                    hindDialog();
+                }
+
             }
         }
     }
 
-    private void nextTrue() {
+    private void hindDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.custom_noti);
+        dialog.setTitle("Thông báo");
+        TextView txtscore = (TextView)dialog.findViewById(R.id.score);
+        Button btnYes = (Button)dialog.findViewById(R.id.btn_yes);
+        Button btnNo = (Button)dialog.findViewById(R.id.btn_no);
+        txtscore.setText(score+"");
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                afterDialog();
+                checkDialogShowYes =false;
+                dialog.dismiss();
+            }
+        });
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkDialogShowNo=false;
+                afterDialog();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    private void afterDialog(){
         currentIndexChildAnswer = 0;
-        currentIndex++;
+        if(checkDialogShowNo ==false){
+            score=0;
+            cleadContentAnswer();
+            currentIndex=0;
+        }
+
+        tvNumberMoney.setText(score+"");
+        if (currentIndex == answers.size()) {
+            currentIndex = 0;
+        }
         imageView.setImageResource(answers.get(currentIndex).getIdImage());
         linearLayout1.removeAllViews();
         linearLayout2.removeAllViews();
-        linear1 = findViewById(R.id.ll_bottom_1);
-        linear2 = findViewById(R.id.ll_bottom_2);
+
         innitButtonAnswer();
         fireButton();
         for (int i = 0; i < linear1.getChildCount(); i++) {
@@ -193,5 +261,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i < linear2.getChildCount(); i++) {
             linear2.getChildAt(i).setVisibility(View.VISIBLE);
         }
+    }
+    private void nextTrue() {
+        currentIndexChildAnswer = 0;
+        score +=30;
+        currentIndex++;
+        tvNumberMoney.setText(score+"");
+        if (currentIndex == answers.size()) {
+            currentIndex = 0;
+        }
+        imageView.setImageResource(answers.get(currentIndex).getIdImage());
+        linearLayout1.removeAllViews();
+        linearLayout2.removeAllViews();
+
+        innitButtonAnswer();
+        fireButton();
+        for (int i = 0; i < linear1.getChildCount(); i++) {
+            linear1.getChildAt(i).setVisibility(View.VISIBLE);
+        }
+        for (int i = 0; i < linear2.getChildCount(); i++) {
+            linear2.getChildAt(i).setVisibility(View.VISIBLE);
+        }
+    }
+    private void hindButton(){
+        for (int i = 0; i <linear1.getChildCount() ; i++) {
+            if(checkId(linear1.getChildAt(i).getId())){
+                (linear1.getChildAt(i)).setVisibility(View.VISIBLE);
+            }
+
+        }
+        for (int i = 0; i <linear2.getChildCount() ; i++) {
+            if(checkId(linear2.getChildAt(i).getId())){
+                (linear2.getChildAt(i)).setVisibility(View.VISIBLE);
+            }
+        }
+        idButtonClicks.clear();
+    }
+    private  boolean checkId(int id){
+        for (int i = 0; i <idButtonClicks.size() ; i++) {
+            if(id==idButtonClicks.get(i)){
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
- >
+    android:layout_height="match_parent">
 
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/game_play_background"
         android:scaleType="centerCrop"
-/>
+        android:src="@drawable/game_play_background" />
+
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
         android:id="@+id/header"
-        android:layout_height="56dp">
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentTop="true">
+
         <RelativeLayout
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:layout_height="wrap_content">
+            android:layout_marginTop="10dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="36dp"
@@ -39,41 +39,54 @@
                 android:src="@drawable/avatar_icon" />
 
             <TextView
-                android:layout_width="32dp"
-                android:background="@drawable/heart"
-                android:gravity="center"
                 android:id="@+id/tv_number_play"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="-23dp"
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@id/avatarIcon"
+                android:background="@drawable/heart"
+                android:gravity="center"
                 android:text="3"
-                android:layout_marginLeft="-23dp"
                 android:textColor="@color/colorWhite"
-                android:textSize="14sp"
-                android:layout_height="32dp" />
+                android:textSize="14sp" />
         </RelativeLayout>
-       <RelativeLayout
-        android:layout_width="wrap_content"
-           android:layout_alignParentRight="true"
-           android:layout_marginRight="20dp"
-           android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
-           <ImageView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:src="@drawable/coin_icon"/>
 
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_centerHorizontal="true"
-               android:layout_marginTop="7dp"
-               android:layout_marginRight="24dp"
-               android:text="30"
-               android:id="@+id/number_money"
-               android:textColor="@color/colorWhite"
-               android:textSize="14sp" />
-       </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/btn_back">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/coin_icon" />
+
+            <TextView
+                android:id="@+id/number_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:layout_centerHorizontal="true"
+                android:text="0"
+                android:textColor="@color/colorWhite"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/button_back"
+            />
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
@@ -215,21 +228,24 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <ImageView
+        android:id="@+id/im_sound"
         android:layout_width="match_parent"
         android:layout_height="256dp"
-        android:src="@drawable/danhlua"
+        android:layout_below="@+id/header"
         android:layout_marginTop="30dp"
-        android:id="@+id/im_sound"
-        android:layout_below="@+id/header"/>
+        android:src="@drawable/danhlua" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_bottom"
-        android:orientation="vertical"
+        android:layout_below="@+id/im_sound"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_below="@+id/im_sound">
+        android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/ll_1"
             android:layout_width="match_parent"

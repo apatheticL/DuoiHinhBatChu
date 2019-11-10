@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/im_icon"
+            android:src="@drawable/icon_sad"
+            android:layout_marginTop="10dp"
+            ></ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/im_icon"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:id="@id/text"
+            android:text="Điểm của bạn là: "/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            android:text="20"
+            android:layout_toRightOf="@id/text"
+            android:id="@+id/score"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text"
+        android:layout_toRightOf="@id/im_icon"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:text="Bạn có muốn tiếp tục không?"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/im_icon"
+        android:layout_height="wrap_content">
+    <Button
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:text="Có"
+        android:background="@drawable/tile_true"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/btn_yes"/>
+    <Button
+        android:layout_width="75dp"
+        android:layout_marginLeft="34dp"
+        android:text="Không"
+        android:background="@drawable/tile_false"
+        android:layout_height="75dp"
+        android:id="@+id/btn_no"/>
+   </LinearLayout>
+</RelativeLayout>
