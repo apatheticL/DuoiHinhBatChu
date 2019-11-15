@@ -127,6 +127,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answers.add(new Answer("GIANDIEP", R.drawable.giandiep));
         answers.add(new Answer("HOIDONG", R.drawable.hoidong));
         answers.add(new Answer("HONGTAM", R.drawable.hongtam));
+        answers.add(new Answer("KHOAILANG", R.drawable.khoailang));
+        answers.add(new Answer("LANCAN", R.drawable.lancan));
+        answers.add(new Answer("NAMBANCAU", R.drawable.nambancau));
+        answers.add(new Answer("THATTINH", R.drawable.thattinh));
+        answers.add(new Answer("MASAT", R.drawable.masat));
+        answers.add(new Answer("QUYHANG", R.drawable.quyhang));
+        answers.add(new Answer("SONGSONG", R.drawable.songsong));
+        answers.add(new Answer("VUAPHALUOI", R.drawable.vuaphaluoi));
+        answers.add(new Answer("TOHOAI", R.drawable.tohoai));
+        answers.add(new Answer("OTO", R.drawable.oto));
+        answers.add(new Answer("TOTIEN", R.drawable.totien));
+        answers.add(new Answer("TICHPHAN", R.drawable.tichphan));
+        answers.add(new Answer("TRANHTHU", R.drawable.tranhthu));
+        answers.add(new Answer("KIEMCHUYEN", R.drawable.kiemchuyen));
+        answers.add(new Answer("XAPHONG", R.drawable.xaphong));
+        answers.add(new Answer("XEDAPDIEN", R.drawable.xedapdien));
         Collections.shuffle(answers);
     }
     private void cleadContentAnswer(){
@@ -168,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 if (isTrue) {
                     nextTrue();
+                    return;
                 }
                 else {
                     hindDialog();
